@@ -1,69 +1,10 @@
-# import dependencies
-# import os
-# import json
 import re
-import streamlit as st
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain, SequentialChain
-from langchain.memory import ConversationBufferMemory
-from langchain.agents import load_tools,initialize_agent,AgentType
 from fastapi import FastAPI
-
-# os.environ["OPENAI_API_KEY"] = apikey
-# os.environ["WOLFRAM_ALPHA_APPID"] = wolfram_alpha_appid
-# os.environ["SERPAPI_API_KEY"] = serpApiKey
 
 # Load tools
 app = FastAPI()
-# llm = OpenAI(temperature=0.9)
-
-# App framwork
-st.title("🦜🔗 LangChain 0.0.148 Recipe App")
-st.write("This app generates a recipe based on a given input.")
-st.write("The recipe is generated using the OpenAI Language Chain API.")
-st.write("The API is based on the GPT-3 model.")
-ingredients_prompt = st.text_input("Enter you ingredients here:")
-
-# string templates
-dish_template = PromptTemplate(
-    template="""Question: I have the following ingredients: {ingredients}. Can you suggest a dish?
-
-        only suggest a dish name, with list of ingredients.
-        First tell me the dish name and where it came from, List the steps to cook the dish in bullet points.
-        Answer:""",
-    input_variables=["ingredients"],
-)
-
-dish_steps_template = PromptTemplate(template="""
-Question: Can you describe how to make the following dish?
-Dish name: {dish}
-""", input_variables=["dish"])
-
-# Memory
-memory = ConversationBufferMemory(input_key="ingredients", memory_key="ingredients_memory")
-
-# llms
-# dish_chain = LLMChain(llm=llm, prompt=dish_template, output_key="dish", memory=memory,verbose=True)
-# dish_steps_chain = LLMChain(llm=llm, prompt=dish_steps_template, output_key="steps", memory=memory,verbose=True)
-# sequential_chain = SequentialChain(chains=[dish_chain,dish_steps_chain], input_variables=["ingredients"]
-#                                    , output_variables=["dish", "steps"],verbose=True)
-# tools = load_tools(['wolfram-alpha'],llm=llm)
-# agent = initialize_agent(tools,llm,agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,verbose=True)
-
-
-# @app.post("/recipe-ingredients/")
-# async def get_recipe(ingredients: str):
-#     response = sequential_chain({'ingredients': ingredients})
-#     print(response)
-#     calories_template = """
-#     Question: I have the following dish: {dish}. Calculate the calories for each individual ingredient, Then calculate the total calories for the dish."""
-#     agent_response = agent(calories_template.format(dish=response['dish']))
-#     final_response = {
-#         "output":response,
-#         "calorie":agent_response
-#     }
-#     return final_response
 
 @app.get("/")
 async def root():
